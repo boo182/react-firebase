@@ -1,20 +1,30 @@
 import React from 'react';
-import { database } from './Components/Firebase/firebase';
+import { connect } from 'react-redux';
+import { equipmentLoadRequest } from './Container/Equipments/actions';
+
 import Equipments from './Container/Equipments';
 
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Provider } from 'react-redux'
 
-const App = () => {
-  // const test = database.ref('Equipments');
-  // test.on('value', snap => {
-  //   console.log(snap.val());
-  // })
+
+const App = ({ store }) => {
   return (
-    <div>
-      <Equipments />
-    </div>
+    <Provider store={store}>
+        <Router>
+          <Switch>
+            <Route path="/equipments" component={Equipments} />
+            <Route path="/equipments/:equipmentId" component={Equipments} />
+          </Switch>
+        </Router>
+    </Provider>
   );
 }
 
+const mapDispatchToProps = (dispatch) => ({
+    onIncrement: () => dispatch(equipmentLoadRequest),
+});
+
+export default connect(false, mapDispatchToProps)(App)
 
 
-export default App;

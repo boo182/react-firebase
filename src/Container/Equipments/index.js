@@ -1,23 +1,9 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import { equipmentLoadRequest } from './actions';
+import React from 'react'
 
-export class Equipments extends Component {
-    render() {
-        return (
-            <div>
-              <button onClick={() => this.props.onIncrement()}>++</button>
-            </div>
-        )
-    }
+const Equipments = () => {
+    return <div>Equipments page</div>
 }
 
-// const mapStateToProps = (state) => ({
-    
-// })
+export default Equipments;
 
-const mapDispatchToProps = (dispatch) => ({
-    onIncrement: () => dispatch(equipmentLoadRequest),
-});
 
-export default connect(false, mapDispatchToProps)(Equipments)
