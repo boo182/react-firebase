@@ -1,5 +1,5 @@
 import { put, takeEvery } from 'redux-saga/effects'
-import { Map } from 'immutable';
+import { OrderedMap } from 'immutable';
 import { EQUIPMENTS_LOAD } from './constants';
 import { database } from '../../Components/Firebase/firebase';
 import { equipmentLoadSuccess, equipmentLoadFailure } from './actions';
@@ -16,7 +16,7 @@ export function* equipmentLoad() {
     try {
       const snapshot = yield equipmentsLoader();
       if (snapshot.val()) {
-        const equipmentsMap = Map(snapshot.val());
+        const equipmentsMap = OrderedMap(snapshot.val());
         yield put(equipmentLoadSuccess(equipmentsMap))
       }
     } catch(e) {
