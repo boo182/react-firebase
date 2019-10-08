@@ -1,26 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { database } from './Components/Firebase/firebase';
+import Equipments from './Container/Equipments';
 
-function App() {
+
+const App = () => {
+  // const test = database.ref('Equipments');
+  // test.on('value', snap => {
+  //   console.log(snap.val());
+  // })
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <Equipments />
     </div>
   );
 }
+
+
 
 export default App;
