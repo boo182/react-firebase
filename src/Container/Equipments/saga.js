@@ -3,6 +3,7 @@ import { OrderedMap } from 'immutable';
 import { EQUIPMENTS_LOAD } from './constants';
 import { database } from '../../Components/Firebase/firebase';
 import { equipmentLoadSuccess, equipmentLoadFailure } from './actions';
+import { equipmentListBuilder } from '../../utils/builders';
 
 
 function equipmentsLoader() {
@@ -16,7 +17,7 @@ export function* equipmentLoad() {
     try {
       const snapshot = yield equipmentsLoader();
       if (snapshot.val()) {
-        const equipmentsMap = OrderedMap(snapshot.val());
+        const equipmentsMap = equipmentListBuilder(snapshot.val());
         yield put(equipmentLoadSuccess(equipmentsMap))
       }
     } catch(e) {

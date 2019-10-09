@@ -1,10 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom'
+// @flow
+import React from 'react'
+import { connect } from 'react-redux'
+import { createStructuredSelector } from 'reselect';
+import { makeSelectEquipments } from './selector';
+import { EquipmentContext as Context } from './equipmentContext';
+import EquipmentList from '../../Components/Equipments/EquipmentList';
+import { toggleSelectEquipment } from './actions';
 
-const Equipments = () => {
-    return <div>Equipments page<Link to="/equipments/3434">Click</Link></div>
+const Equipments = (props) => {
+  return (
+    <Context.Provider value={props}>
+      <EquipmentList />
+    </Context.Provider>
+  ) 
+
 }
+const mapStateToProps = createStructuredSelector({
+  equipments: makeSelectEquipments,
+})
 
-export default Equipments;
+
+const mapDispatchToProps = dispatch => ({ 
+  onToggleSelectEquipment: (equipId: string) => dispatch(toggleSelectEquipment(equipId))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Equipments)
 
 

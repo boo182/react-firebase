@@ -1,19 +1,25 @@
 // @flow
 import { Map } from 'immutable';
-import  { EQUIPMENTS_LOAD } from './constants';
+import  { EQUIPMENTS_LOAD, TOGGLE_EQUIPMENT_SELECTED } from './constants';
+import { EquipmentRecord  } from '../../flowTypes';
 
 
 // ================================================
 
 const initialState = Map();
 
-export default (equipments: Map<string, Equipments> = initialState, action: Action): Equipments => {
+export default (equipments: Map<string, EquipmentRecord> = initialState, action: Action):  Map<string, EquipmentRecord> => {
   switch (action.type) {
 
     case EQUIPMENTS_LOAD.success: {
-      const { equipmentMap } = action.payload;
-      console.log(equipmentMap);
+      const { equipmentMap }: { equipmentMap: Map<string, EquipmentRecord> } = action.payload;
       return equipmentMap;
+    }
+
+    case TOGGLE_EQUIPMENT_SELECTED: {
+      const { equipId }: { equipId: string } = action.payload;
+      const isSelected = equipments.get(equipId).selected;
+      return equipments.setIn([equipId, 'selected'], !isSelected);
     }
 
     default:

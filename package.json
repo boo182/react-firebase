@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^4.5.0",
+    "@material-ui/icons": "^4.4.3",
     "@react-firebase/database": "^0.3.10",
     "firebase": "^7.1.0",
     "immutable": "^4.0.0-rc.12",
@@ -13,7 +15,9 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.2.0",
     "redux": "^4.0.4",
-    "redux-saga": "^1.1.1"
+    "redux-saga": "^1.1.1",
+    "reselect": "^4.0.0",
+    "styled-components": "^4.4.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -35,5 +39,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "^6.5.1",
+    "eslint-config-react-app": "^5.0.2",
+    "eslint-plugin-react": "^7.16.0"
   }
 }
