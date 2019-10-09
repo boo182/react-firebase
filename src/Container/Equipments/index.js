@@ -2,10 +2,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
-import { makeSelectEquipments } from './selector';
+import {
+  makeSelectEquipmentList,
+  makeSelectFullMultipleSelection,
+  makeSelectMultipleSelection
+} from './selector';
 import { EquipmentContext as Context } from './equipmentContext';
 import EquipmentList from '../../Components/Equipments/EquipmentList';
-import { toggleSelectEquipment } from './actions';
+import { toggleSelectEquipment, toggleMultiple } from './actions';
 
 const Equipments = (props) => {
   return (
@@ -16,12 +20,15 @@ const Equipments = (props) => {
 
 }
 const mapStateToProps = createStructuredSelector({
-  equipments: makeSelectEquipments,
+  equipments: makeSelectEquipmentList,
+  isAllEquipSelected: makeSelectFullMultipleSelection,
+  isSomeSelected: makeSelectMultipleSelection,
 })
 
 
 const mapDispatchToProps = dispatch => ({ 
-  onToggleSelectEquipment: (equipId: string) => dispatch(toggleSelectEquipment(equipId))
+  onToggleSelectEquipment: (equipId: string) => dispatch(toggleSelectEquipment(equipId)),
+  onToggleMultiple: (isAllSelected: boolean) => dispatch(toggleMultiple(isAllSelected))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipments)

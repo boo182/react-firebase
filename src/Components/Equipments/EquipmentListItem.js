@@ -11,11 +11,14 @@ import CommentIcon from '@material-ui/icons/Comment';
 // Components
 import withContext from '../../utils/withContext';
 import { EquipmentContext } from '../../Container/Equipments/equipmentContext';
+import Flag from '../Misc/Flag';
+import { CenteredDiv } from '../Misc/FlexDivs';
+import { getDefaultsLabel } from '../../utils/helpers';
 
 // ================================================
 
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles(theme =>
   createStyles({
     root: {
       width: '100%',
@@ -24,6 +27,15 @@ const useStyles = makeStyles((theme: Theme) =>
     paperRoot: {
       margin: theme.spacing(2),
       borderRadius: 3,
+    },
+    name: {
+      fontSize: 20,
+      color: theme.palette.grey.darker,
+    },
+    defaults: {
+      color: theme.palette.grey.darker,
+      fontSize: 15,
+      marginRight: theme.spacing(2),
     }
   }),
 );
@@ -48,7 +60,19 @@ const EquipmentListItem = ({ equipment, onToggleSelectEquipment }: Props) => {
             inputProps={{ 'aria-labelledby': equipment.id }}
           />
         </ListItemIcon>
-        <ListItemText id={equipment.id} primary={equipment.name} />
+
+        <div>
+          <ListItemText id={equipment.id} primary={equipment.name} classes={{ primary: classes.name }}/>
+          <CenteredDiv>
+            <ListItemText
+              id={equipment.id}
+              primary={getDefaultsLabel(equipment.nbFaults)}
+              classes={{ primary: classes.defaults }}
+            />
+            <Flag height={20} width={20}>{equipment.domain}</Flag>
+          </CenteredDiv>
+        </div>
+
         <ListItemSecondaryAction>
           <IconButton edge="end" aria-label="comments">
             <CommentIcon />

@@ -1,4 +1,6 @@
+// @flow
 import { Map, Record } from 'immutable';
+import { uniq } from 'lodash';
 
 export const Equipments: EquipmentsType = new Record({
   id: '',

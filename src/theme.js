@@ -1,4 +1,5 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import grey from '@material-ui/core/colors/grey';
 
 const PRIMARY = '#f1c232'; 
 const HOVER = '#F5D46F';
@@ -20,6 +21,15 @@ const theme = createMuiTheme({
       hoverLight: HOVER,
       hoverDark: '#937F42',
     },
+    grey: {
+      darker: grey[700],
+      dark: grey[600],
+      main: grey[500],
+      light: grey[400],
+      lighter: grey[300],
+      lighterst: grey[200],
+
+    }
   },
 });
 console.log(theme);

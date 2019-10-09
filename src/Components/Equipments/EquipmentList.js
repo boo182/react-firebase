@@ -12,6 +12,7 @@ import type { EquipmentRecord } from '../../flowTypes';
 import type { Map } from 'immutable';
 import EquipmentListItem from './EquipmentListItem';
 import { ContentContainer } from '../Misc/ContentContainer';
+import ListSortBar from './ListSortBar';
 
 // ===============================================
 
@@ -37,6 +38,7 @@ const EquipmentList = ({ equipments }: Props) => {
   return (<ContentContainer>
     <Wrapper>
       <List className={classes.root}>
+        <ListSortBar />
         {[...equipments.values()].map(item => <EquipmentListItem equipment={item} key={item.id}/>)}
       </List>
     </Wrapper>

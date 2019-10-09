@@ -1,5 +1,4 @@
 import { put, takeEvery } from 'redux-saga/effects'
-import { OrderedMap } from 'immutable';
 import { EQUIPMENTS_LOAD } from './constants';
 import { database } from '../../Components/Firebase/firebase';
 import { equipmentLoadSuccess, equipmentLoadFailure } from './actions';
