@@ -37,13 +37,13 @@ const EquipmentList = ({ equipments }: Props) => {
 
   useEffect(() => {
     setList(equipments);
-  }, [equipments, 'list']);
+  }, [equipments]);
 
   const classes = useStyles();
   return (<ContentContainer>
+    <ListSortBar onReverseSort={() => setList(list.reverse())}/>
     <Wrapper>
       <MuiList className={classes.root}>
-        <ListSortBar onReverseSort={() => setList(list.reverse())}/>
         {list.size > 0 && list.map(item => <EquipmentListItem equipment={item} key={item.id}/>)}
       </MuiList>
     </Wrapper>

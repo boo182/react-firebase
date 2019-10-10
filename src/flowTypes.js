@@ -18,7 +18,15 @@ export type Equipment = {
   nbFaults: string,
 }
 export type EquipmentRecord = RecordOf<Equipment>;
+export type EquipmentListUiType = RecordOf<{
+  equimentList: {
+    sortType: string,
+    filter: string,
+    filterType: string,
+  }
+}>
 
 export type StateType = {
     equipments: Map<string, EquipmentRecord>,
+    ui: EquipmentListUiType,
 };

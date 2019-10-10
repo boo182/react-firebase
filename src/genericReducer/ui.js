@@ -1,14 +1,16 @@
 // @flow
 import { Record } from 'immutable';
-import { SORT_EQUIPMENT_LIST, FILTER_EQUIPMENT_LIST } from '../genericActions/uiActions';
+import { SORT_EQUIPMENT_LIST, FILTER_EQUIPMENT_LIST, SET_FILTER_TYPE } from '../genericActions/uiActions';
 import { UiType  } from '../flowTypes';
+import { NAME } from '../constants';
 
 
 // ================================================
 const Ui = Record({
   equipmentList: {
-    sortType: 'name',
+    sortType: NAME.value,
     filter: '',
+    filterType: NAME.value,
   }
 });
 
@@ -25,6 +27,12 @@ export default (ui: UiType = initialState, action: Action):  UiType => {
       const { filter }: { filter: string } = action.payload;
       return ui.setIn(['equipmentList', 'filter'], filter);
     }
+
+    case SET_FILTER_TYPE: {
+      const { filterType }: { filterType: string } = action.payload;
+      return ui.setIn(['equipmentList', 'filterType'], filterType);
+    }
+
     default:
       return ui;
   }

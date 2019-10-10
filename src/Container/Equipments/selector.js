@@ -1,29 +1,31 @@
 // @flow
 import { createSelector } from 'reselect';
-import type { StateType, Equipments } from '../../flowTypes';
+import type { StateType, Equipments, EquipmentListUiType } from '../../flowTypes';
 import { EMPTY_MAP, EMPTY_LIST } from '../../constants';
 import { sortTypeList, filterList } from '../../utils/helpers';
 import { List } from '@material-ui/core';
 
-const selectEquipmentList = (state: StateType) => state.equipments || EMPTY_MAP; 
+const selectEquipmentList = (state: StateType) => state.equipments || EMPTY_MAP;
+const selectEquipmentListUi = (state: StateType) => state.ui.equipmentList || {};
 //
 export const makseSelectEquipmentSortType = createSelector(
-  (state: StateType) => state.ui.equipmentList.sortType || '',
-  (sortType: string): string => sortType,
+  selectEquipmentListUi,
+  (ui: EquipmentListUiType): string => ui.sortType,
 );
 
 export const makeSelectEquipmentFilter = createSelector(
-  (state: StateType) => state.ui.equipmentList.filter || '',
-  (filter: string): string => filter,
+  selectEquipmentListUi,
+  (ui: EquipmentListUiType): Object => ({ filter: ui.filter, filterType: ui.filterType }),
 );
+
 
 export const makeSelectEquipmentList = createSelector(
   selectEquipmentList,
   makseSelectEquipmentSortType,
   makeSelectEquipmentFilter,
-  (equipmentList: Map<string, Equipments>, sortType: string, filter: string): List<Equipments> => {
+  (equipmentList: Map<string, Equipments>, sortType: string, { filter, filterType }: Object): List<Equipments> => {
     const valuesList = [...equipmentList.values()];
-    const filteredList = filterList(valuesList, filter);
+    const filteredList = filterList(valuesList, filter, filterType);
     return sortTypeList(filteredList, sortType) || EMPTY_LIST;
   }
 );

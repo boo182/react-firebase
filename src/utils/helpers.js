@@ -14,5 +14,9 @@ export const getDefaultsLabel = (nb: number): string => {
 export const sortTypeList = (list: List<EquipmentRecord>, type: string): List<EquipmentRecord> => 
   List(sortBy(list, item => item[type]));
 
-export const filterList = (list: List<EquipmentRecord>, filter: string): List<EquipmentRecord> =>
-  filter ? list.filter(item => item.name.toLowerCase().includes(filter.toLowerCase())) : list; 
+export const filterList = (
+  list: List<EquipmentRecord>,
+  filter: string,
+  filterType: string
+): List<EquipmentRecord> => 
+  filter ? list.filter(item => item[filterType].toLowerCase().includes(filter.toLowerCase())) : list; 

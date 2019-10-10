@@ -7,12 +7,12 @@ import {
   makeSelectFullMultipleSelection,
   makeSelectMultipleSelection,
   makseSelectEquipmentSortType,
-  makeSelectEquipmentFilter
+  makeSelectEquipmentFilter,
 } from './selector';
 import { EquipmentContext as Context } from './equipmentContext';
 import EquipmentList from '../../Components/Equipments/EquipmentList';
 import { toggleSelectEquipment, toggleMultiple } from './actions';
-import { sortEquipmentList, filterEquipmentList } from '../../genericActions/uiActions'
+import { sortEquipmentList, filterEquipmentList, setFilterType } from '../../genericActions/uiActions'
 
 const Equipments = (props) => {
   return (
@@ -35,7 +35,8 @@ const mapDispatchToProps = dispatch => ({
   onToggleSelectEquipment: (equipId: string) => dispatch(toggleSelectEquipment(equipId)),
   onToggleMultiple: (isAllSelected: boolean) => dispatch(toggleMultiple(isAllSelected)),
   onSortlist: (sortType: string) => dispatch(sortEquipmentList(sortType)),
-  onFilterEquipmentList: (filter: string) => dispatch(filterEquipmentList(filter)),
+  onFilterEquipmentList: (filter: string, filterType: string) => dispatch(filterEquipmentList(filter, filterType)),
+  onSetFilterType: (filterType: string) => dispatch(setFilterType(filterType)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipments)

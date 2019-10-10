@@ -24,14 +24,15 @@ const useStyles = makeStyles((theme: Theme) =>
 type Props = {
   value: string,
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
+  label: String,
 };
 
-export default function CustomizedSelects( { value, onChange }: Props) {
+export default function CustomizedSelects( { value, onChange, label }: Props) {
   const classes = useStyles();
   return (
       <TextField
         id="outlined-name"
-        label="Filtre"
+        label={label}
         className={classes.textField}
         value={value}
         onChange={onChange}

@@ -1,4 +1,4 @@
-import React, { useContext, memo } from 'react';
+import React, { useContext, memo, useState } from 'react';
 import styled from 'styled-components';
 import { makeStyles, withTheme } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -8,7 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import GenericSelect from '../Misc/GenericSelect';
 import withContext from '../../utils/withContext';
 import { EquipmentContext } from '../../Container/Equipments/equipmentContext';
-import { sortTypeList } from '../../constants';
+import { sortTypeList, DEFAULTS_COUNT, filterTypeObject } from '../../constants';
 import { CenteredAlignDiv } from '../Misc/FlexDivs';
 import GenericInput from '../Misc/GenericInput';
 
@@ -56,11 +56,13 @@ const ListSortBar = ({
   equipmentFilter,
   onFilterEquipmentList,
   onReverseSort,
+  onSetFilterType,
 }: Props) => {
   const classes = useStyles();
-
   const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => onSortlist(e.target.value);
   const onFilterEquipment = (e: React.ChangeEvent<HTMLInputElement>) => onFilterEquipmentList(e.target.value);
+  const filterTypeList = sortTypeList.filter(item => item.value !== DEFAULTS_COUNT.value);
+  const filterLabel = filterTypeObject[equipmentFilter.filterType].label;
 
   return (
     <Container>
@@ -83,9 +85,17 @@ const ListSortBar = ({
         <IconButton className={classes.button} onClick={onReverseSort} aria-label="delete">
           <SwapVertIcon />
         </IconButton>
+        <GenericSelect
+          value={equipmentFilter.filterType}
+          onChange={(e) => onSetFilterType(e.target.value)}
+          options={filterTypeList}
+          label="Filtrer sur"
+          outlined
+        />
         <GenericInput
-          value={equipmentFilter}
+          value={equipmentFilter.filter}
           onChange={onFilterEquipment}
+          label={filterLabel}
         />
     </Container>
   )
@@ -100,6 +110,7 @@ const ContextSelect = () => {
       equipmentSortType,
       equipmentFilter,
       onFilterEquipmentList,
+      onSetFilterType,
     } = useContext(EquipmentContext);
     return {
       onToggleMultiple,
@@ -109,6 +120,7 @@ const ContextSelect = () => {
       equipmentSortType,
       equipmentFilter,
       onFilterEquipmentList,
+      onSetFilterType,
     };
   };
   

@@ -12,5 +12,6 @@ export const EquipmentContext = React.createContext({
   equipmentSortType: '',
   onSortlist: EMPTY_FUNC,
   onFilterEquipmentList: EMPTY_FUNC,
+  onSetFilterType: EMPTY_FUNC,
   equipmentFilter: '',
 });

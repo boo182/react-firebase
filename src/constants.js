@@ -19,4 +19,5 @@ export const NAME = { value: 'name', label: 'Equipement' };
 export const DEFAULTS_COUNT = { value: 'nbFaults', label: 'Nombre de défauts' };;
 export const DOMAIN = { value: 'domain', label: 'Domaine' };
 
+export const filterTypeObject = { [NAME.value]: NAME, [DOMAIN.value]: DOMAIN };
 export const sortTypeList = [NAME, DEFAULTS_COUNT, DOMAIN];
