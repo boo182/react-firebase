@@ -1,15 +1,14 @@
 // @flow
-import React, { useContext, memo } from 'react';
+import React, { useContext, memo, useState, useEffect } from 'react';
 // Externals
 import styled from 'styled-components';
 import { withTheme, makeStyles } from '@material-ui/styles';
-import Paper from '@material-ui/core/Paper'
-import List from '@material-ui/core/List';
+import { List as MuiList } from '@material-ui/core';
 // Components
 import withContext from '../../utils/withContext';
 import { EquipmentContext } from '../../Container/Equipments/equipmentContext';
 import type { EquipmentRecord } from '../../flowTypes';
-import type { Map } from 'immutable';
+import type { List } from 'immutable';
 import EquipmentListItem from './EquipmentListItem';
 import { ContentContainer } from '../Misc/ContentContainer';
 import ListSortBar from './ListSortBar';
@@ -17,7 +16,7 @@ import ListSortBar from './ListSortBar';
 // ===============================================
 
 type Props = {
-  foo: Map<string, EquipmentRecord>,
+  equipments: List<EquipmentRecord>,
 };
 const Wrapper = withTheme(styled.div`
   margin-top: ${(props) => props.theme.spacing(3)}px;
@@ -34,13 +33,19 @@ const useStyles = makeStyles(theme => ({
 }))
 
 const EquipmentList = ({ equipments }: Props) => {
+  const [list, setList] = useState(equipments);
+
+  useEffect(() => {
+    setList(equipments);
+  }, [equipments, 'list']);
+
   const classes = useStyles();
   return (<ContentContainer>
     <Wrapper>
-      <List className={classes.root}>
-        <ListSortBar />
-        {[...equipments.values()].map(item => <EquipmentListItem equipment={item} key={item.id}/>)}
-      </List>
+      <MuiList className={classes.root}>
+        <ListSortBar onReverseSort={() => setList(list.reverse())}/>
+        {list.size > 0 && list.map(item => <EquipmentListItem equipment={item} key={item.id}/>)}
+      </MuiList>
     </Wrapper>
   </ContentContainer>);
 };

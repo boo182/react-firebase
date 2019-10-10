@@ -1,14 +1,24 @@
 import React, { useContext, memo } from 'react';
-import { makeStyles } from '@material-ui/styles';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import styled from 'styled-components';
+import { makeStyles, withTheme } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
+import SwapVertIcon from '@material-ui/icons/SwapVert';
+import IconButton from '@material-ui/core/IconButton';
 // Components
 import GenericSelect from '../Misc/GenericSelect';
 import withContext from '../../utils/withContext';
 import { EquipmentContext } from '../../Container/Equipments/equipmentContext';
-import { NAME, DEFAULTS_COUNT, DOMAIN } from '../../constants';
+import { sortTypeList } from '../../constants';
 import { CenteredAlignDiv } from '../Misc/FlexDivs';
+import GenericInput from '../Misc/GenericInput';
+
+// =================================================
+
+const Container = withTheme(styled(CenteredAlignDiv)`
+  height: ${({ theme }) => theme.spacing(8)}px;
+  width: 100%;
+  margin: ${({ theme }) => theme.spacing(2)}px;
+`);
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,47 +32,83 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     minWidth: 120,
   },
+  button: {
+    margin: theme.spacing(1),
+  },
 }));
 
 type Props = {
   onToggleMultiple: () => void,
   isAllEquipSelected: boolean,
   isSomeSelected: boolean,
+  equipmentSortType: string,
+  onSortlist: () => void,
+  equipmentFilter: string,
+  onFilterEquipmentList: (string) => void,
+  onReverseSort: () => void,
 }
-const ListSortBar = ({ isAllEquipSelected, isSomeSelected, onToggleMultiple }: Props) => {
+const ListSortBar = ({
+  isAllEquipSelected,
+  isSomeSelected,
+  onToggleMultiple,
+  equipmentSortType,
+  onSortlist,
+  equipmentFilter,
+  onFilterEquipmentList,
+  onReverseSort,
+}: Props) => {
   const classes = useStyles();
-  const handleChange = (e) => console.log(e.target.value);
+
+  const handleChange = (e: React.ChangeEvent<{ name?: string; value: unknown }>) => onSortlist(e.target.value);
+  const onFilterEquipment = (e: React.ChangeEvent<HTMLInputElement>) => onFilterEquipmentList(e.target.value);
 
   return (
-    <CenteredAlignDiv button onClick={() => onToggleMultiple(isAllEquipSelected)}>
-      <ListItemIcon>
+    <Container>
         <Checkbox
-          className={classes.indeterminate, classes.root}
+          classes={{ indeterminate: classes.indeterminate, root: classes.root }}
           color="primary"
           edge="start"
           checked={isAllEquipSelected}
           indeterminate={Boolean(!isAllEquipSelected && isSomeSelected)}
           disableRipple
+          onClick={() => onToggleMultiple(isAllEquipSelected)}
         />
         <GenericSelect
-          value={NAME.value}
+          value={equipmentSortType}
           onChange={handleChange}
-          options={[NAME, DEFAULTS_COUNT, DOMAIN]}
+          options={sortTypeList}
           label="Tri"
           outlined
         />
-      </ListItemIcon>
-    </CenteredAlignDiv>
+        <IconButton className={classes.button} onClick={onReverseSort} aria-label="delete">
+          <SwapVertIcon />
+        </IconButton>
+        <GenericInput
+          value={equipmentFilter}
+          onChange={onFilterEquipment}
+        />
+    </Container>
   )
 }
 
 const ContextSelect = () => {
-    const { onToggleMultiple, isAllEquipSelected, isSomeSelected, sortList } = useContext(EquipmentContext);
+    const {
+      onToggleMultiple,
+      isAllEquipSelected,
+      isSomeSelected,
+      onSortlist,
+      equipmentSortType,
+      equipmentFilter,
+      onFilterEquipmentList,
+    } = useContext(EquipmentContext);
     return {
       onToggleMultiple,
       isAllEquipSelected,
       isSomeSelected,
-      sortList,
+      onSortlist,
+      equipmentSortType,
+      equipmentFilter,
+      onFilterEquipmentList,
     };
   };
   

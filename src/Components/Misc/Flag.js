@@ -17,15 +17,6 @@ const Wrapper = withTheme(styled(CenteredDiv)`
   font-size: ${({ theme }) => theme.spacing(1.50)}px;
 `);
 
-const WhiteSquare = withTheme(styled.div`
-  background-color: transparent;
-  height: ${({ theme }) => theme.spacing(1.50)}px;
-  width: ${({ theme }) => theme.spacing(1.50)}px;
-  position: relative;
-  right: 6px;
-  transform: rotate(45deg);
-  z-index: 3,
-`);
 
 type Props = {
   children: React.Node,

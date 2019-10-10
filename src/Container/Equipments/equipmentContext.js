@@ -9,4 +9,8 @@ export const EquipmentContext = React.createContext({
   onToggleMultiple: EMPTY_FUNC,
   isAllEquipSelected: false,
   isSomeSelected: false,
+  equipmentSortType: '',
+  onSortlist: EMPTY_FUNC,
+  onFilterEquipmentList: EMPTY_FUNC,
+  equipmentFilter: '',
 });
