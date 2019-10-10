@@ -13,3 +13,7 @@ export const  domainListColors = {
   'ELECTRICITE COURANTS FAIBLES': '#66cfff',
   'INCENDIE ET SECURITE': '#ee99fc',
 };
+
+export const NAME = { value: 'name', label: 'Equipement' };
+export const DEFAULTS_COUNT = { value: 'nbFaults', label: 'Nombre de défauts' };;
+export const DOMAIN = { value: 'domain', label: 'Domaine' };

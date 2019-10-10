@@ -10,6 +10,7 @@ import {
 import { EquipmentContext as Context } from './equipmentContext';
 import EquipmentList from '../../Components/Equipments/EquipmentList';
 import { toggleSelectEquipment, toggleMultiple } from './actions';
+import { sortEquipmentList } from '../../genericActions/uiActions'
 
 const Equipments = (props) => {
   return (
@@ -28,7 +29,8 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({ 
   onToggleSelectEquipment: (equipId: string) => dispatch(toggleSelectEquipment(equipId)),
-  onToggleMultiple: (isAllSelected: boolean) => dispatch(toggleMultiple(isAllSelected))
+  onToggleMultiple: (isAllSelected: boolean) => dispatch(toggleMultiple(isAllSelected)),
+  onSortlist: (sortType: string) => dispatch(sortEquipmentList(sortType))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipments)

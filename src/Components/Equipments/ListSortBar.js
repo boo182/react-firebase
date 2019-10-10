@@ -3,13 +3,12 @@ import { makeStyles } from '@material-ui/styles';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import Checkbox from '@material-ui/core/Checkbox';
-import FormControl from '@material-ui/core/FormControl';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
-import InputLabel from '@material-ui/core/InputLabel';
 // Components
+import GenericSelect from '../Misc/GenericSelect';
 import withContext from '../../utils/withContext';
 import { EquipmentContext } from '../../Container/Equipments/equipmentContext';
+import { NAME, DEFAULTS_COUNT, DOMAIN } from '../../constants';
+import { CenteredAlignDiv } from '../Misc/FlexDivs';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -32,46 +31,38 @@ type Props = {
 }
 const ListSortBar = ({ isAllEquipSelected, isSomeSelected, onToggleMultiple }: Props) => {
   const classes = useStyles();
+  const handleChange = (e) => console.log(e.target.value);
+
   return (
-    <ListItem button onClick={() => onToggleMultiple(isAllEquipSelected)}>
+    <CenteredAlignDiv button onClick={() => onToggleMultiple(isAllEquipSelected)}>
       <ListItemIcon>
         <Checkbox
           className={classes.indeterminate, classes.root}
           color="primary"
           edge="start"
           checked={isAllEquipSelected}
-          indeterminate={!isAllEquipSelected && isSomeSelected}
+          indeterminate={Boolean(!isAllEquipSelected && isSomeSelected)}
           disableRipple
         />
-        <FormControl variant="filled" className={classes.formControl}>
-          <InputLabel htmlFor="filled-age-simple">Age</InputLabel>
-          <Select
-            value={10}
-            onChange={() => {}}
-            inputProps={{
-              name: 'age',
-              id: 'filled-age-simple',
-            }}
-          >
-            <MenuItem value="">
-              <em>None</em>
-            </MenuItem>
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
+        <GenericSelect
+          value={NAME.value}
+          onChange={handleChange}
+          options={[NAME, DEFAULTS_COUNT, DOMAIN]}
+          label="Tri"
+          outlined
+        />
       </ListItemIcon>
-    </ListItem>
+    </CenteredAlignDiv>
   )
 }
 
 const ContextSelect = () => {
-    const { onToggleMultiple, isAllEquipSelected, isSomeSelected } = useContext(EquipmentContext);
+    const { onToggleMultiple, isAllEquipSelected, isSomeSelected, sortList } = useContext(EquipmentContext);
     return {
       onToggleMultiple,
       isAllEquipSelected,
-      isSomeSelected
+      isSomeSelected,
+      sortList,
     };
   };
   
