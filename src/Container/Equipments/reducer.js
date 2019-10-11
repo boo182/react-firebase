@@ -1,6 +1,6 @@
 // @flow
 import { Map } from 'immutable';
-import  { EQUIPMENTS_LOAD, TOGGLE_EQUIPMENT_SELECTED, TOGGLE_MULTIPLE_EQUIPMENTS } from './constants';
+import  { EQUIPMENTS_LOAD, TOGGLE_EQUIPMENT_SELECTED, TOGGLE_MULTIPLE_EQUIPMENTS, DETLETE_EQUIPMENTS } from './constants';
 import { EquipmentRecord  } from '../../flowTypes';
 
 
@@ -28,6 +28,11 @@ export default (equipments: Map<string, EquipmentRecord> = initialState, action:
         return item.set('selected',  !isAllEquipSelected)
       });
       return list;
+    }
+
+    case DETLETE_EQUIPMENTS: {
+      const selectedEquipments = equipments.filter(item => !item.selected);
+      return selectedEquipments;
     }
 
     default:

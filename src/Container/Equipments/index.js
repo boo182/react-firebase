@@ -11,7 +11,7 @@ import {
 } from './selector';
 import { EquipmentContext as Context } from './equipmentContext';
 import EquipmentList from '../../Components/Equipments/EquipmentList';
-import { toggleSelectEquipment, toggleMultiple } from './actions';
+import { toggleSelectEquipment, toggleMultiple, deleteEquipments } from './actions';
 import { sortEquipmentList, filterEquipmentList, setFilterType } from '../../genericActions/uiActions'
 
 const Equipments = (props) => {
@@ -37,6 +37,7 @@ const mapDispatchToProps = dispatch => ({
   onSortlist: (sortType: string) => dispatch(sortEquipmentList(sortType)),
   onFilterEquipmentList: (filter: string, filterType: string) => dispatch(filterEquipmentList(filter, filterType)),
   onSetFilterType: (filterType: string) => dispatch(setFilterType(filterType)),
+  onDeleteEquipments: () => dispatch(deleteEquipments)
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipments)

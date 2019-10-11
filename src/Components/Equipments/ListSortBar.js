@@ -1,4 +1,4 @@
-import React, { useContext, memo, useState } from 'react';
+import React, { useContext, memo } from 'react';
 import styled from 'styled-components';
 import { makeStyles, withTheme } from '@material-ui/styles';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,15 +9,33 @@ import GenericSelect from '../Misc/GenericSelect';
 import withContext from '../../utils/withContext';
 import { EquipmentContext } from '../../Container/Equipments/equipmentContext';
 import { sortTypeList, DEFAULTS_COUNT, filterTypeObject } from '../../constants';
-import { CenteredAlignDiv } from '../Misc/FlexDivs';
+import { Flex } from '../Misc/FlexDivs';
 import GenericInput from '../Misc/GenericInput';
 
 // =================================================
 
-const Container = withTheme(styled(CenteredAlignDiv)`
+const Container = withTheme(styled(Flex)`
+  flex: 1;
+  padding-bottom: ${({ theme }) => theme.spacing(3)}px;
   height: ${({ theme }) => theme.spacing(8)}px;
   width: 100%;
   margin: ${({ theme }) => theme.spacing(2)}px;
+  align-items: flex-end;
+  border-bottom: 1px solid lightgrey;
+`);
+
+const CheckboxWrapper = withTheme(styled.div`
+  padding-left: ${({ theme }) => theme.spacing(4)}px;
+  position: relative;
+  top: 10px;
+`);
+
+const SortWrapper = withTheme(styled(Flex)`
+  margin: ${({ theme }) => `0px ${theme.spacing(8)}px`};
+`);
+
+const InputWrapper = withTheme(styled(Flex)`
+  margin-left: ${({ theme }) => theme.spacing(2)}px;
 `);
 
 const useStyles = makeStyles(theme => ({
@@ -33,7 +51,8 @@ const useStyles = makeStyles(theme => ({
     minWidth: 120,
   },
   button: {
-    margin: theme.spacing(1),
+    position: 'relative',
+    top: 7,
   },
 }));
 
@@ -66,6 +85,7 @@ const ListSortBar = ({
 
   return (
     <Container>
+      <CheckboxWrapper>
         <Checkbox
           classes={{ indeterminate: classes.indeterminate, root: classes.root }}
           color="primary"
@@ -75,6 +95,11 @@ const ListSortBar = ({
           disableRipple
           onClick={() => onToggleMultiple(isAllEquipSelected)}
         />
+      </CheckboxWrapper>
+      <SortWrapper>
+        <IconButton className={classes.button} onClick={onReverseSort} aria-label="delete">
+          <SwapVertIcon />
+        </IconButton>
         <GenericSelect
           value={equipmentSortType}
           onChange={handleChange}
@@ -82,21 +107,22 @@ const ListSortBar = ({
           label="Tri"
           outlined
         />
-        <IconButton className={classes.button} onClick={onReverseSort} aria-label="delete">
-          <SwapVertIcon />
-        </IconButton>
-        <GenericSelect
-          value={equipmentFilter.filterType}
-          onChange={(e) => onSetFilterType(e.target.value)}
-          options={filterTypeList}
-          label="Filtrer sur"
-          outlined
-        />
+      </SortWrapper>
+      <GenericSelect
+        value={equipmentFilter.filterType}
+        onChange={(e) => onSetFilterType(e.target.value)}
+        options={filterTypeList}
+        label="Filtrer sur"
+        outlined
+      />
+      <InputWrapper>
         <GenericInput
           value={equipmentFilter.filter}
           onChange={onFilterEquipment}
           label={filterLabel}
         />
+      </InputWrapper>
+
     </Container>
   )
 }

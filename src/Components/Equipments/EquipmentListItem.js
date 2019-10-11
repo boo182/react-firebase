@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme =>
       color: theme.palette.grey.darker,
       fontSize: 15,
       marginRight: theme.spacing(2),
+    },
+    wrapper: {
+      marginRight: theme.spacing(8),
     }
   }),
 );
@@ -61,7 +64,7 @@ const EquipmentListItem = ({ equipment, onToggleSelectEquipment }: Props) => {
           />
         </ListItemIcon>
 
-        <div>
+        <div className={classes.wrapper}>
           <ListItemText id={equipment.id} primary={equipment.name} classes={{ primary: classes.name }}/>
           <CenteredDiv>
             <ListItemText
@@ -69,14 +72,15 @@ const EquipmentListItem = ({ equipment, onToggleSelectEquipment }: Props) => {
               primary={getDefaultsLabel(equipment.nbFaults)}
               classes={{ primary: classes.defaults }}
             />
-            <Flag height={20} width={20}>{equipment.domain}</Flag>
           </CenteredDiv>
         </div>
-
         <ListItemSecondaryAction>
+        <CenteredDiv>
+          <Flag height={20} width={20}>{equipment.domain}</Flag>
           <IconButton edge="end" aria-label="comments">
             <CommentIcon />
           </IconButton>
+          </CenteredDiv>
         </ListItemSecondaryAction>
       </ListItem>
     </Paper>

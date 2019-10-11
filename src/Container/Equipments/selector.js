@@ -32,13 +32,14 @@ export const makeSelectEquipmentList = createSelector(
 
 export const makeSelectMultipleSelection = createSelector(
   selectEquipmentList,
-  (equipmentList: Map<string, Equipments>): boolean => equipmentList.filter(item => item.selected).size,
+  (equipmentList: Map<string, Equipments>): number => equipmentList.filter(item => item.selected).size,
 );
 
 export const makeSelectFullMultipleSelection = createSelector(
   makeSelectMultipleSelection,
   selectEquipmentList,
-  (selection: number, equipmentList: Map<string, Equipments>): boolean => equipmentList.size === selection,
+  (selection: number, equipmentList: Map<string, Equipments>): boolean =>
+    equipmentList.size > 0 && equipmentList.size === selection,
 );
 
 

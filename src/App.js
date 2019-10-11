@@ -15,13 +15,13 @@ const customHistory = createBrowserHistory()
 
 const App = ({ store }) => {
   return (
-    <Provider store={store}>
+      <Provider store={store}>
         <TopBar />
         <Router history={customHistory}>
           <Route path="/" component={Equipments} />
           <Route path="/equipments/:equipmentId" component={Detail} />
         </Router>
-    </Provider>
+      </Provider>
   );
 }
 
