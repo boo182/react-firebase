@@ -14,4 +14,5 @@ export const EquipmentContext = React.createContext({
   onFilterEquipmentList: EMPTY_FUNC,
   onSetFilterType: EMPTY_FUNC,
   equipmentFilter: '',
+  onGoToDetailPage: EMPTY_FUNC,
 });

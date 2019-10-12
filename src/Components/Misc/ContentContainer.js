@@ -6,3 +6,5 @@ export const ContentContainer = styled(CenteredDiv)`
   width: 100%
   flex-direction: column;
 `;
+
+export default ContentContainer;

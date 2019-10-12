@@ -26,7 +26,12 @@ export type EquipmentListUiType = RecordOf<{
   }
 }>
 
+export type DetailRecord = RecordOf<{
+  equipment: EquipmentRecord,
+}>;
+
 export type StateType = {
     equipments: Map<string, EquipmentRecord>,
+    detail: DetailRecord,
     ui: EquipmentListUiType,
 };

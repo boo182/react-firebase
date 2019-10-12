@@ -2,12 +2,14 @@ import { all } from 'redux-saga/effects'
 
 import {
     watchEquipmentLoad,
-    equipmentLoad
+    watchPageChange,
 } from './Container/Equipments/saga';
+import { watchDetailLoad } from './Container/Detail/saga';
 
 export default function* rootSaga() {
   yield all([
-    equipmentLoad(),
-    watchEquipmentLoad()
+    watchEquipmentLoad(),
+    watchPageChange(),
+    watchDetailLoad(),
   ])
 }

@@ -27,6 +27,7 @@ const useStyles = makeStyles(theme =>
     paperRoot: {
       margin: theme.spacing(2),
       borderRadius: 3,
+      cursor: 'pointer',
     },
     name: {
       fontSize: 20,
@@ -46,52 +47,59 @@ const useStyles = makeStyles(theme =>
 
 type Props = {
   equipment: EquipmentRecord,
+  onGoToDetailPage: (equipmentId: string) => void,
 }
 
-const EquipmentListItem = ({ equipment, onToggleSelectEquipment }: Props) => {
+const EquipmentListItem = ({ equipment, onToggleSelectEquipment, onGoToDetailPage }: Props) => {
   const classes = useStyles();
 
+  const handleCheckBoxClick = e => {
+    e.stopPropagation();
+    onToggleSelectEquipment(equipment.id)
+  }
   return (
     <Paper className={classes.paperRoot} elevation={1}>
-      <ListItem button onClick={() => onToggleSelectEquipment(equipment.id)}>
-        <ListItemIcon>
-          <Checkbox
-            color="primary"
-            edge="start"
-            checked={equipment.selected}
-            disableRipple
-            inputProps={{ 'aria-labelledby': equipment.id }}
-          />
-        </ListItemIcon>
-
-        <div className={classes.wrapper}>
-          <ListItemText id={equipment.id} primary={equipment.name} classes={{ primary: classes.name }}/>
-          <CenteredDiv>
-            <ListItemText
-              id={equipment.id}
-              primary={getDefaultsLabel(equipment.nbFaults)}
-              classes={{ primary: classes.defaults }}
+        <ListItem onClick={() => onGoToDetailPage(equipment.id)}>
+          <ListItemIcon>
+            <Checkbox
+              color="primary"
+              edge="start"
+              checked={equipment.selected}
+              disableRipple
+              inputProps={{ 'aria-labelledby': equipment.id }}
+              onClick={handleCheckBoxClick}
             />
-          </CenteredDiv>
-        </div>
-        <ListItemSecondaryAction>
-        <CenteredDiv>
-          <Flag height={20} width={20}>{equipment.domain}</Flag>
-          <IconButton edge="end" aria-label="comments">
-            <CommentIcon />
-          </IconButton>
-          </CenteredDiv>
-        </ListItemSecondaryAction>
-      </ListItem>
+          </ListItemIcon>
+
+          <div className={classes.wrapper}>
+            <ListItemText id={equipment.id} primary={equipment.name} classes={{ primary: classes.name }}/>
+            <CenteredDiv>
+              <ListItemText
+                id={equipment.id}
+                primary={getDefaultsLabel(equipment.nbFaults)}
+                classes={{ primary: classes.defaults }}
+              />
+            </CenteredDiv>
+          </div>
+          <ListItemSecondaryAction>
+          <CenteredDiv>
+            <Flag height={20} width={20}>{equipment.domain}</Flag>
+            <IconButton edge="end" aria-label="comments">
+              <CommentIcon />
+            </IconButton>
+            </CenteredDiv>
+          </ListItemSecondaryAction>
+        </ListItem>
     </Paper>
   );
 }
 
 const Select = () => {
-  const { equipments, onToggleSelectEquipment } = useContext(EquipmentContext);
+  const { equipments, onToggleSelectEquipment, onGoToDetailPage } = useContext(EquipmentContext);
   return {
     equipments,
     onToggleSelectEquipment,
+    onGoToDetailPage,
   };
 };
 
