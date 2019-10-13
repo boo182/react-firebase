@@ -1,12 +1,11 @@
 import React from 'react';
-import { connect, Provider } from 'react-redux';
-import { equipmentLoadRequest } from './Container/Equipments/actions';
+import { Provider } from 'react-redux';
 
 import Equipments from './Container/Equipments';
 import Detail from './Container/Detail';
 import TopBar from './Container/TopBar';
 
-import { BrowserRouter as Switch, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { ConnectedRouter } from 'connected-react-router'
 import { history } from './configureStore'
 

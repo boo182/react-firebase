@@ -1,18 +1,11 @@
 // @flow
-import React, { memo, useContext, useState } from 'react';
+import React, { memo, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import Chip from '@material-ui/core/Chip';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import ContentContainer from '../Misc/ContentContainer';
 import styled from 'styled-components';
-import TextField from '@material-ui/core/TextField';
-import CloseIcon from '@material-ui/icons/Close';
 // Components
 import withContext from '../../utils/withContext';
 import { DetailContext } from '../../Container/Detail/detailContext';
@@ -20,18 +13,12 @@ import { withTheme } from '@material-ui/styles';
 import type { EquipmentRecord } from '../../flowTypes';
 import { Flex, CenteredAlignDiv } from '../Misc/FlexDivs';
 import Flag from '../Misc/Flag';
+import DefaultsPanel from './DefaultsPanel';
+import EditPanel from './EditPanel';
 
 
 
 const Wrapper = withTheme(styled(Flex)`
-`);
-const EditWrapper = withTheme(styled.div`
-  max-width: 600px;
-`);
-
-const NotesWrapper = withTheme(styled(Flex)`
-  flex-wrap: wrap;
-  max-width: 600px;
 `);
 
 const MetaWrapper = withTheme(styled.div`
@@ -41,7 +28,8 @@ const MetaWrapper = withTheme(styled.div`
 
 const BuildingWrapper = withTheme(styled(Flex)`
   margin-top: 10px
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: flex-end;
 `);
 
 const Image = styled.img`
@@ -55,12 +43,17 @@ const ChipWrapper = styled(Flex)`
   justify-content: space-between;
   top: -490px;
   z-index: 2;
-  padding: 0px 10px; 
+  padding: 0px 10px;
+  height: 5px;
 `;
 
 const TitleWrapper = withTheme(styled(CenteredAlignDiv)`
-  height: ${({ theme }) => theme.spacing(6)}px;
+  margin-top: ${({ theme }) => theme.spacing(2.5)}px;
+  margin-bottom: ${({ theme }) => theme.spacing(2.5)}px;
+  min-height: ${({ theme }) => theme.spacing(6)}px;
+  flex-wrap: wrap;
 `);
+
 const useStyles = makeStyles(theme =>({
   card: {
     marginTop: 30,
@@ -69,6 +62,9 @@ const useStyles = makeStyles(theme =>({
   },
   root: {
     height: 150,
+  },
+  panel: {
+    width: '80%',
   },
   chip: {
     textTransform: 'uppercase'
@@ -79,10 +75,10 @@ const useStyles = makeStyles(theme =>({
   },
   header: {
     fontWeight: 600,
+    marginRight: theme.spacing(2.5),
   },
   brand: {
     fontSize: theme.spacing(2.25),
-    marginLeft: theme.spacing(1.5),
   },
   building: {
     fontSize: 20,
@@ -93,8 +89,7 @@ const useStyles = makeStyles(theme =>({
 type Props = {
   equipment: EquipmentRecord,
 }
-const EquipmentCard = ({ equipment }) => {
-  const [noteEdition, setNoteEdition] = useState(false);
+const EquipmentCard = ({ equipment }: Props) => {
   const classes = useStyles();
 
   return (
@@ -116,6 +111,7 @@ const EquipmentCard = ({ equipment }) => {
               />
             </ChipWrapper>
             <BuildingWrapper>
+              <div>ref: {equipment.serialNumber || 'Inconnue'}</div>
               <Typography component="h3" classes={{ root: classes.building }}>
                 {equipment.building} - {equipment.local} - {equipment.niveau}
               </Typography>
@@ -128,33 +124,13 @@ const EquipmentCard = ({ equipment }) => {
                 {equipment.name}
               </Typography>
               <Typography component="h3" classes={{ root: classes.brand }}>
-                {equipment.brand} - {equipment.model}
+                {equipment.brand}{equipment.model && ` - ${equipment.model}`}
               </Typography>
             </TitleWrapper>
-            {!noteEdition && <NotesWrapper>
-              {equipment.notes}
-              <Button onClick={() => setNoteEdition(!noteEdition)}>Editer</Button>
-            </NotesWrapper>}
-            {noteEdition &&  <EditWrapper>
-              <TextField
-                defaultValue={equipment.notes}
-                id="outlined-full-width"
-                label="Notes"
-                style={{ margin: 8 }}
-                placeholder="Placeholder"
-                fullWidth
-                margin="normal"
-                multiline
-                variant="outlined"
-                InputLabelProps={{
-                    shrink: true,
-                }}
-              />
-              <Button onClick={() => console.log(('save'))}>Sauvegarder</Button>
-              <Button onClick={() => setNoteEdition(!noteEdition)}><CloseIcon /></Button>
-
-            </EditWrapper>}
-
+            <div classes={{ root: classes.panel }}>      
+              <DefaultsPanel />
+              {equipment.notes && <EditPanel notes={equipment.notes} />}
+            </div>  
           </MetaWrapper>
         </Wrapper>
         

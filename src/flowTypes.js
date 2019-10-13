@@ -25,13 +25,25 @@ export type EquipmentListUiType = RecordOf<{
     filterType: string,
   }
 }>
+export type CheckpointType = {
+  id: '',
+  equipmentKey: '',
+  fault: '',
+  name: '',
+  reco: '',
+};
+
+export type CheckpointRecord = RecordOf<Checkpoint>;
 
 export type DetailRecord = RecordOf<{
   equipment: EquipmentRecord,
+  defaults: List<CheckpointRecord>,
+  recommendation: List<CheckpointRecord>,
 }>;
 
 export type StateType = {
-    equipments: Map<string, EquipmentRecord>,
-    detail: DetailRecord,
-    ui: EquipmentListUiType,
+  equipments: Map<string, EquipmentRecord>,
+  detail: DetailRecord,
+  ui: EquipmentListUiType,
 };
+

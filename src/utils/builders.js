@@ -1,5 +1,14 @@
 // @flow
-import { Map, Record } from 'immutable';
+import { Map, Record, List } from 'immutable';
+import { CheckpointRecord, EquipmentsType, CheckpointType } from '../flowTypes';
+
+export const Checkpoint: CheckpointRecord = new Record({
+  id: '',
+  equipmentKey: '',
+  fault: '',
+  name: '',
+  recommandation: '',
+});
 
 export const Equipments: EquipmentsType = new Record({
   id: '',
@@ -26,5 +35,17 @@ export const equipmentListBuilder = (equipments: { [string]: Equipment }): Map<s
     tmp = {...tmp, [i]: eq };
   }
   return Map(tmp);
+}
+
+export const buildAssociatedCheckpoints = (
+  checkPointObject: { [string]: CheckpointType },
+  equipId: string,
+  ): List<CheckpointType> => {
+  let tmp = [];
+  for(const i in checkPointObject) {
+    const cp = new Checkpoint({ ...checkPointObject[i], id: i });
+    tmp = [...tmp, cp];
+  }
+  return List(tmp.filter(item => item.equipmentKey === equipId));
 }
 

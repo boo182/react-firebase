@@ -1,43 +1,42 @@
 // @flow
-import React from 'react'
+import React, { useEffect } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
-import { makeSelectEquipment } from './selector';
+import { makeSelectEquipment, makeSelectCheckpoints } from './selector';
 import { DetailContext as Context } from './detailContext';
-// import EquipmentList from '../../Components/Equipments/EquipmentList';
-import { loadEquipmentRequest } from './actions';
-// import { sortEquipmentList, filterEquipmentList, setFilterType } from '../../genericActions/uiActions'
+import { loadEquipmentRequest, loadCheckpointRequest, updateNote } from './actions';
 import LoadingIndicator from '../../Components/Misc/LoadingIndicator';
 import EquipmentCard from '../../Components/Detail/EquipmentCard';
 
 const Detail = (props) => {
+  const equipId = props.match.params.equipmentId
+  const { equipment } = props;
+  
+  useEffect(() => {
+    props.loadCheckpoint(equipId);
+  }, [equipment]);
 
   if (!props.equipment.id) {
-    props.loadEquipment(props.match.params.equipmentId);
-    return <LoadingIndicator />
+    props.loadEquipment(equipId);
+    return <LoadingIndicator />;
   }
-  console.log(props)
 
   return (
     <Context.Provider value={props}>
       <EquipmentCard />
     </Context.Provider>
   ) 
-
 }
 const mapStateToProps = createStructuredSelector({
   equipment: makeSelectEquipment,
+  checkpoints: makeSelectCheckpoints,
 })
 
 
 const mapDispatchToProps = dispatch => ({
-  loadEquipment: (equipId: string) => dispatch(loadEquipmentRequest(equipId))
-  // onToggleSelectEquipment: (equipId: string) => dispatch(toggleSelectEquipment(equipId)),
-  // onToggleMultiple: (isAllSelected: boolean) => dispatch(toggleMultiple(isAllSelected)),
-  // onSortlist: (sortType: string) => dispatch(sortEquipmentList(sortType)),
-  // onFilterEquipmentList: (filter: string, filterType: string) => dispatch(filterEquipmentList(filter, filterType)),
-  // onSetFilterType: (filterType: string) => dispatch(setFilterType(filterType)),
-  // onDeleteEquipments: () => dispatch(deleteEquipments)
+  loadEquipment: (equipId: string) => dispatch(loadEquipmentRequest(equipId)),
+  loadCheckpoint: (equipId: string) => dispatch(loadCheckpointRequest(equipId)),
+  onUpdateNote: (note: string) => dispatch(updateNote(note)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Detail)
