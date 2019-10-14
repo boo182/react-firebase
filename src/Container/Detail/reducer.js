@@ -1,7 +1,7 @@
 // @flow
 import { Record } from 'immutable';
 import { Equipments } from '../../utils/builders';
-import { LOAD_EQUIPMENT_DETAIL, LOAD_CHECKPOINT, UPDATE_NOTE } from './constants';
+import { LOAD_EQUIPMENT_DETAIL, LOAD_CHECKPOINT_ASSOCIATED, UPDATE_NOTE } from './constants';
 import type { DetailRecord, EquipmentRecord } from '../../flowTypes';
 import { EMPTY_LIST } from '../../constants';
 
@@ -20,7 +20,7 @@ export default (detail: DetailRecord = initialState, action: Action):  Detail =>
       const { equipment }: { equipment: EquipmentRecord } = action.payload;
       return detail.set('equipment', equipment);
     }
-    case LOAD_CHECKPOINT.success: {
+    case LOAD_CHECKPOINT_ASSOCIATED.success: {
       const { checkpoints } = action.payload;
       return detail.set('checkpoints', checkpoints);
     }

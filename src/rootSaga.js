@@ -6,8 +6,9 @@ import {
 } from './Container/Equipments/saga';
 import {
   watchDetailLoad,
-  watchCheckpointLoad
+  watchAssociatedCheckpointLoad,
 } from './Container/Detail/saga';
+import { watchCheckpointLoad } from './genericSagas/checkpointsSaga';
 
 export default function* rootSaga() {
   yield all([
@@ -15,5 +16,6 @@ export default function* rootSaga() {
     watchPageChange(),
     watchDetailLoad(),
     watchCheckpointLoad(),
+    watchAssociatedCheckpointLoad()
   ])
 }

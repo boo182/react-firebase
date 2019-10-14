@@ -3,8 +3,8 @@ import { EQUIPMENTS_LOAD, GO_TO_DETAIL_PAGE } from './constants';
 import { database } from '../../Components/Firebase/firebase';
 import { equipmentLoadSuccess, equipmentLoadFailure } from './actions';
 import { equipmentListBuilder } from '../../utils/builders';
-import { loadEquipmentTodetail } from '../Detail/actions';
 import { push } from 'connected-react-router';
+import { loadEquipmentTodetail } from '../Detail/actions';
 
 export const getSelectedEquipment = equipmentId => state => state.equipments.get(equipmentId);
 function equipmentsLoader() {
@@ -13,6 +13,7 @@ function equipmentsLoader() {
     table.on('value', resolve);
   });
 }
+
 
 export function* equipmentLoad() {
     try {

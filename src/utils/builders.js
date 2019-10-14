@@ -37,15 +37,17 @@ export const equipmentListBuilder = (equipments: { [string]: Equipment }): Map<s
   return Map(tmp);
 }
 
-export const buildAssociatedCheckpoints = (
-  checkPointObject: { [string]: CheckpointType },
-  equipId: string,
-  ): List<CheckpointType> => {
+export const buildCheckpointList = (checkPointObject: { [string]: CheckpointType }): List<CheckpointRecord> => {
   let tmp = [];
   for(const i in checkPointObject) {
     const cp = new Checkpoint({ ...checkPointObject[i], id: i });
     tmp = [...tmp, cp];
   }
-  return List(tmp.filter(item => item.equipmentKey === equipId));
+  return List(tmp);
 }
+
+export const buildAssociatedCheckpoints = (
+  checkPointObject: List<CheckpointRecord>,
+  equipId: string,
+  ): List<CheckpointRecord> => checkPointObject.filter(item => item.equipmentKey === equipId);
 

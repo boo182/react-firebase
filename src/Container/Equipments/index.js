@@ -1,5 +1,5 @@
 // @flow
-import React from 'react'
+import React  from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
 import {
@@ -19,12 +19,15 @@ import {
   equipmentLoadRequest
 } from './actions';
 import { sortEquipmentList, filterEquipmentList, setFilterType } from '../../genericActions/uiActions';
+import { loadCheckpointRequest } from '../../genericActions/checkpointsActions';
 import LoadingIndicator from '../../Components/Misc/LoadingIndicator';
 
 const Equipments = (props) => {
 
   if (props.equipments.size === 0) {
+    props.loadCheckpoint();
     props.onLoadEquipments();
+
     return <LoadingIndicator />
   }
   return (
@@ -51,7 +54,8 @@ const mapDispatchToProps = dispatch => ({
   onFilterEquipmentList: (filter: string, filterType: string) => dispatch(filterEquipmentList(filter, filterType)),
   onSetFilterType: (filterType: string) => dispatch(setFilterType(filterType)),
   onDeleteEquipments: () => dispatch(deleteEquipments),
-  onGoToDetailPage: (equipmentId) => dispatch(goToDetailPage(equipmentId))
+  onGoToDetailPage: (equipmentId) => dispatch(goToDetailPage(equipmentId)),
+  loadCheckpoint: () => dispatch(loadCheckpointRequest),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Equipments)

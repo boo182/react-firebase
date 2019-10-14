@@ -1,8 +1,13 @@
-import { put, takeEvery } from 'redux-saga/effects'
-import { LOAD_EQUIPMENT, LOAD_CHECKPOINT } from './constants';
+import { put, takeEvery, select } from 'redux-saga/effects'
+import { LOAD_EQUIPMENT, LOAD_CHECKPOINT_ASSOCIATED } from './constants';
 import { database } from '../../Components/Firebase/firebase';
-import { loadEquipmentTodetail, loadEquipmentFailure, loadCheckpointSuccess } from './actions';
+import { 
+  loadAssociatedCheckpointsSuccess,
+  loadEquipmentTodetail,
+  loadEquipmentFailure
+} from './actions';
 import { buildAssociatedCheckpoints } from '../../utils/builders';
+import { loadCheckpointRequest } from '../../genericActions/checkpointsActions';
 
 function equipmentsLoader(equipId) {
   return new Promise(resolve => {
@@ -10,13 +15,8 @@ function equipmentsLoader(equipId) {
     table.on('value', resolve);
   });
 }
+const getAssociatedCheckpoints = state => state.checkpoints;
 
-function checkpointApiLoader() {
-  return new Promise(resolve => {
-    const table = database.ref('Checkpoints');
-    table.on('value', resolve);
-  });
-}
 
 export function* equipmentLoad(action) {
     try {
@@ -36,10 +36,14 @@ export function* equipmentLoad(action) {
 export function* checkpointLoad(action) {
   try {
     const equipId = action.payload.equipId;
-    const snapshot = yield checkpointApiLoader();
-    const associatedCheckpoints = buildAssociatedCheckpoints(snapshot.val(), equipId);
+    const checkpointsSelect = yield select(getAssociatedCheckpoints);
+    if(!checkpointsSelect) {
+      yield loadCheckpointRequest();
+      return undefined;
+    }
+    const associatedCheckpoints = buildAssociatedCheckpoints(checkpointsSelect, equipId);
     if (associatedCheckpoints) {
-      yield put(loadCheckpointSuccess(associatedCheckpoints));
+      yield put(loadAssociatedCheckpointsSuccess(associatedCheckpoints));
     }
   } catch(e) {
       yield put(loadEquipmentFailure(e))
@@ -52,6 +56,6 @@ export function* watchDetailLoad() {
   yield takeEvery(LOAD_EQUIPMENT.request, equipmentLoad)
 }
 
-export function* watchCheckpointLoad() {
-  yield takeEvery(LOAD_CHECKPOINT.request, checkpointLoad)
+export function* watchAssociatedCheckpointLoad() {
+  yield takeEvery(LOAD_CHECKPOINT_ASSOCIATED.request, checkpointLoad)
 }

@@ -15,6 +15,11 @@ export const makeSelectCheckpoints = createSelector(
 )
 
 
+export const makeSelectCheckpointsLoaded = createSelector(
+  (state: StateType): List<CheckpointRecord> | void => state.checkpoints || EMPTY_LIST,
+  (cp: List<CheckpointRecord>): List<CheckpointRecord> => cp.size > 0,
+)
+
 
 
 
