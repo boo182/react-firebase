@@ -1,5 +1,5 @@
 // @flow
-import React  from 'react'
+import React, { memo } from 'react'
 import { connect } from 'react-redux'
 import { createStructuredSelector } from 'reselect';
 import {
@@ -8,6 +8,7 @@ import {
   makeSelectMultipleSelection,
   makseSelectEquipmentSortType,
   makeSelectEquipmentFilter,
+  makeSelectEquipmentsLoaded
 } from './selector';
 import { EquipmentContext as Context } from './equipmentContext';
 import EquipmentList from '../../Components/Equipments/EquipmentList';
@@ -24,10 +25,10 @@ import LoadingIndicator from '../../Components/Misc/LoadingIndicator';
 
 const Equipments = (props) => {
 
-  if (props.equipments.size === 0) {
+  console.log(props.equipmentsLoaded)
+  if (!props.equipmentsLoaded) {
     props.loadCheckpoint();
     props.onLoadEquipments();
-
     return <LoadingIndicator />
   }
   return (
@@ -43,6 +44,7 @@ const mapStateToProps = createStructuredSelector({
   isSomeSelected: makeSelectMultipleSelection,
   equipmentSortType: makseSelectEquipmentSortType,
   equipmentFilter: makeSelectEquipmentFilter,
+  equipmentsLoaded: makeSelectEquipmentsLoaded,
 })
 
 
@@ -58,6 +60,6 @@ const mapDispatchToProps = dispatch => ({
   loadCheckpoint: () => dispatch(loadCheckpointRequest),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Equipments)
+export default connect(mapStateToProps, mapDispatchToProps)(memo(Equipments))
 
 

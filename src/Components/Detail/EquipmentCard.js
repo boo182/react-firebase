@@ -6,11 +6,12 @@ import Chip from '@material-ui/core/Chip';
 import Typography from '@material-ui/core/Typography';
 import ContentContainer from '../Misc/ContentContainer';
 import styled from 'styled-components';
+import type { List } from 'immutable';
 // Components
 import withContext from '../../utils/withContext';
 import { DetailContext } from '../../Container/Detail/detailContext';
 import { withTheme } from '@material-ui/styles';
-import type { EquipmentRecord } from '../../flowTypes';
+import type { EquipmentRecord, CheckpointRecord } from '../../flowTypes';
 import { Flex, CenteredAlignDiv } from '../Misc/FlexDivs';
 import Flag from '../Misc/Flag';
 import DefaultsPanel from './DefaultsPanel';
@@ -88,8 +89,9 @@ const useStyles = makeStyles(theme =>({
 
 type Props = {
   equipment: EquipmentRecord,
+  checkpoints: List<CheckpointRecord>,
 }
-const EquipmentCard = ({ equipment }: Props) => {
+const EquipmentCard = ({ equipment, checkpoints }: Props) => {
   const classes = useStyles();
 
   return (
@@ -128,7 +130,7 @@ const EquipmentCard = ({ equipment }: Props) => {
               </Typography>
             </TitleWrapper>
             <div classes={{ root: classes.panel }}>      
-              <DefaultsPanel />
+              {checkpoints.size > 0 && <DefaultsPanel />}
               {equipment.notes && <EditPanel notes={equipment.notes} />}
             </div>  
           </MetaWrapper>
@@ -140,8 +142,8 @@ const EquipmentCard = ({ equipment }: Props) => {
 }
 
 const Select = () => {
-    const { equipment } = useContext(DetailContext);
-    return { equipment };
+    const { equipment, checkpoints } = useContext(DetailContext);
+    return { equipment, checkpoints };
   };
   
   export default withContext(

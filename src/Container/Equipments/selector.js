@@ -42,6 +42,11 @@ export const makeSelectFullMultipleSelection = createSelector(
     equipmentList.size > 0 && equipmentList.size === selection,
 );
 
+export const makeSelectEquipmentsLoaded = createSelector(
+  (state: StateType) => state.equipments || EMPTY_MAP,
+  (equipmentList: Map<string, Equipments>): boolean => equipmentList.size > 0,
+);
+
 
 
 

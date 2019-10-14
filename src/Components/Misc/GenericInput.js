@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const GenericInput = ({ label, value, onChange }) => {
   const classes = useStyles();
   return (
-    <form className={classes.root}>
+    <div className={classes.root}>
       <FormControl>
         <InputLabel shrink htmlFor="bootstrap-input">
           {label}
@@ -53,7 +53,7 @@ const GenericInput = ({ label, value, onChange }) => {
           onChange={onChange}
           variant="outlined"/>
       </FormControl>
-    </form>
+    </div>
   );
 }
 
