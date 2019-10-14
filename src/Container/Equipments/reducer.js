@@ -32,7 +32,6 @@ export default (equipments: Map<string, EquipmentRecord> = initialState, action:
 
     case DETLETE_EQUIPMENTS: {
       const selectedEquipments = equipments.filter(item => !item.selected);
-      console.log(selectedEquipments);
       return selectedEquipments;
     }
 
